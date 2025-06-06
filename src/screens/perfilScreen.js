@@ -1,8 +1,8 @@
 import { View, Text, StyleSheet} from 'react-native';
 import { useNavigation } from '@react-navigation/native'
-import { StatusBar } from 'expo-status-bar';
 
 import Header from '../components/header';
+import BotonRojo2 from '../components/botonRojo2';
 
 export default function perfilScreen() {
   
@@ -10,12 +10,14 @@ export default function perfilScreen() {
     return (
       
       <View style={{backgroundColor: '#272727', flex: 1}}>
-         <StatusBar style="light" />
+
          <Header titulo="Perfil"/>    
          <View style={styles.perfilScreen}>  
          
                  <View style={{ height: 23 }} />
                  <Text style={styles.text}>Perfil</Text>
+                 <View style={{ height: 123 }} />
+                 <BotonRojo2 texto="Eliminar mi cuenta" onPress={() => {}}/>
                  </View>
 
       </View>

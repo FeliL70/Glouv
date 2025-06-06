@@ -1,6 +1,5 @@
-import { View, Text, StyleSheet, Image, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native'
-import { StatusBar } from 'expo-status-bar';
 
 import Header from '../components/header';
 import circuloYLogo from '../../assets/circuloYLogo.png'
@@ -12,8 +11,8 @@ export default function conectarGlouvScreen() {
     const navigation = useNavigation();
     return (
       
-      <SafeAreaView style={{backgroundColor: '#272727', flex: 1}}>
-         <StatusBar style="light" />
+      <View style={{backgroundColor: '#272727', flex: 1}}>
+         
          
          <Header titulo="Conectar Glouv"/>      
 
@@ -34,7 +33,7 @@ export default function conectarGlouvScreen() {
                   y los datos se registrarán en nuestra aplicación.</Text>
 
                  </View>
-      </SafeAreaView>
+      </View>
     );
   }
 

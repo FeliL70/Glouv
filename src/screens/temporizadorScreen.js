@@ -3,7 +3,7 @@ import { useRoute } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 
 import Header from '../components/header'
-import BotonRojo from '../components/botonRojo';
+import BotonRojo2 from '../components/botonRojo2';
 
 export default function temporizadorScreen() {
   const route = useRoute();
@@ -15,9 +15,9 @@ export default function temporizadorScreen() {
              <StatusBar style="light" />
              <Header titulo={titulo} showBack={true}/>
 
-            <View style={styles.temporizadorScreenScreen}>
-              
-              <BotonRojo texto="Empezar" onPress={() => {}}/>
+            <View style={styles.temporizadorScreen}>
+            <View style={{ height: 250 }} />
+              <BotonRojo2 texto="Empezar" onPress={() => {}}/>
 
             </View>
     </View>
@@ -25,7 +25,7 @@ export default function temporizadorScreen() {
 }
 
 const styles = StyleSheet.create({
-  detalleEntrenamientoScreen: {
+  temporizadorScreen: {
     justifyContent: 'center',
     alignItems: 'center',
   },

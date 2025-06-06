@@ -1,9 +1,8 @@
 import { View, StyleSheet, Image } from 'react-native';
 import { useRoute } from '@react-navigation/native';
-import { StatusBar } from 'expo-status-bar';
 
 import Header from '../components/header'
-import BotonRojo from '../components/botonRojo';
+import BotonRojo2 from '../components/botonRojo2';
 
 export default function detalleEntrenamientoScreen() {
   const route = useRoute();
@@ -12,14 +11,13 @@ export default function detalleEntrenamientoScreen() {
   return (
     <View style={{backgroundColor: '#272727', flex: 1}}>
              
-             <StatusBar style="light" />
              <Header titulo={titulo} showBack={true}/>
 
             <View style={styles.detalleEntrenamientoScreen}>
               <View style={{ height: 23 }} />
               <Image source={imagen} style={styles.imagen} />
               <View style={{ height: 250 }} />
-              <BotonRojo texto="Empezar" onPress={() => {}}/>
+              <BotonRojo2 texto="Empezar" onPress={() => {}}/>
 
             </View>
     </View>

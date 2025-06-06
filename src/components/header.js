@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
@@ -7,7 +7,7 @@ export default function Header({ titulo, showBack = false}) {
   const navigation = useNavigation();
 
    return (
-    <SafeAreaView style={styles.safeArea}>
+    <View style={styles.safeArea}>
       <View style={styles.header}>
         {showBack && (
           <TouchableOpacity
@@ -19,7 +19,7 @@ export default function Header({ titulo, showBack = false}) {
         )}
         <Text style={styles.text}>{titulo}</Text>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -29,11 +29,12 @@ const styles = StyleSheet.create({
     },
 
   header: {
-    height: 54,
+    height: 100,
     width: '100%',
+    paddingBottom: 14,
     backgroundColor: '#272727',
 
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center',
 
     shadowColor: '#000',
@@ -53,6 +54,6 @@ const styles = StyleSheet.create({
   backButton: {
     position: 'absolute',
     left: 10,    
-    padding: 5,
+    padding: 12,
   },
 });

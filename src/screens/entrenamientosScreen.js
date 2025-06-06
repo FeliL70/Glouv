@@ -1,6 +1,5 @@
-import { View, Text, StyleSheet, ScrollView,SafeAreaView} from 'react-native';
+import { View, Text, StyleSheet, ScrollView} from 'react-native';
 import {useNavigation } from '@react-navigation/native'
-import { StatusBar } from 'expo-status-bar';
 
 import Header from '../components/header';
 import ImagenBoton from '../components/imagenBoton';
@@ -18,9 +17,8 @@ export default function EntrenamientosScreen(){
     return (
 
       
-<SafeAreaView style={styles.safeArea}>
-        <StatusBar style="light" />
-
+<View style={{flex: 1, backgroundColor: '#272727',}}>
+       
  <Header titulo="Entrenamientos"/>         
 
   <ScrollView>
@@ -58,16 +56,12 @@ export default function EntrenamientosScreen(){
 </View>
 </ScrollView>
 
-      </SafeAreaView>
+      </View>
     );
   }
   
   
 const styles = StyleSheet.create({
- safeArea: {
-    flex: 1,
-    backgroundColor: '#272727',
-  },
 
   entrenamientosScreen: {
     justifyContent: 'center',
