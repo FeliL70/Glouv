@@ -23,7 +23,7 @@ export default function conectarGlouvScreen() {
                  <View style={{ height: 50 }} />
                 <BotonRojo texto="Conectar Glouv" onPress={() => {}} />
 
-                  <Separador />
+                  <Separador colorS="white" mB= {22.5} mT= {22.5} />
 
                  <Text style={styles.text}>Presiona el botón para que permita activar la 
                   conexión Bluetooth de los guantes. Al presionarlo,

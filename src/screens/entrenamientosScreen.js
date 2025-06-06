@@ -24,34 +24,34 @@ export default function EntrenamientosScreen(){
   <ScrollView>
 <View style={styles.entrenamientosScreen}>
       
-        <View style={{ height: 23 }} />
+        <View style={{ height: 25 }} />
           <ImagenBoton imagenDeBoton={Imagen1} onPress={() => navigation.navigate('detalleEntrenamiento', {
           imagen: Imagen1,
            titulo: 'Básico',
            })} />
-         <Separador />
+         <Separador colorS="white" mB= {22.5} mT= {22.5}/>
        
           <ImagenBoton imagenDeBoton={Imagen2} onPress={() => navigation.navigate('detalleEntrenamiento', {
           imagen: Imagen2,
            titulo: 'Intermedio',
            })} />
-        <Separador />
+        <Separador colorS="white" mB= {22.5} mT= {22.5}/>
        
           <ImagenBoton imagenDeBoton={Imagen3} onPress={() => navigation.navigate('detalleEntrenamiento', {
           imagen: Imagen3,
            titulo: 'Avanzado',
            })} />
-        <Separador />
+        <Separador colorS="white" mB= {22.5} mT= {22.5}/>
        
         <Text style={styles.text}>Personalización</Text>
   
           <ImagenBoton imagenDeBoton = {Imagen4} onPress={() => {}} />
-        <Separador />      
+        <Separador colorS="white" mB= {22.5} mT= {22.5}/>      
          
          <ImagenBoton imagenDeBoton={Imagen5} onPress={() => navigation.navigate('temporizador', {
            titulo: 'Temporizador',
            })} />
-        <Separador />
+        <Separador colorS="white" mB= {22.5} mT= {22.5}/>
 
 </View>
 </ScrollView>
@@ -70,10 +70,11 @@ const styles = StyleSheet.create({
 
   text: {
     color: 'white',
-    fontSize: 27,
+    fontSize: 25,
     marginTop: 10.5,
     marginBottom: 23,
-    marginRight:175
+    marginRight:175,
+    fontWeight: 'bold',
     
   },
   }

@@ -42,8 +42,9 @@ export default function calendarioScreen() {
     text: {
     color: 'white',
     fontSize: 30,
-    marginTop: 10,
+    marginBottom: 10,
     textAlign: 'left',
     paddingHorizontal: 15,
+    fontWeight: 'bold',
   },
   });
