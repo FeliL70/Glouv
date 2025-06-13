@@ -12,17 +12,27 @@ export default function perfilScreen() {
     const navigation = useNavigation();
 
     const [fotoURL, setFotoURL] = useState(null);
+    const [fotoFondoURL, setFotoFondoURL] = useState(null);
+    const [nombre, setNombre] = useState(''); 
+    const [fechaDeNacimiento, setFechaDeNacimiento] = useState('');
+    const [email, setEmail] = useState(''); 
+    const [descripcion, setDescripcion] = useState(''); 
   
     useEffect(() => {
       const cargarFoto = async () => {
     console.log({supabase})   
      const {data} = await supabase
           .from('Usuarios')
-          .select('fotoDePerfil')
+          .select('fotoDePerfil, nombre, fotoDeFondo, fechaDeNacimiento, email, descripcion')
           .eq('id', 1)
           .single();
   
           setFotoURL(data?.fotoDePerfil || null);
+          setNombre(data?.nombre || '');
+          setFotoFondoURL(data?.fotoDeFondo || null);
+          setFechaDeNacimiento(data?.fechaDeNacimiento || '');
+          setEmail(data?.email || '');
+          setDescripcion(data?.descripcion || '');
       };
   
       cargarFoto();
@@ -34,14 +44,39 @@ export default function perfilScreen() {
 
          <Header titulo="Perfil"/>    
          <View style={styles.perfilScreen}>  
-         
-                 <View style={{ height: 23 }} />
-                 <Text style={styles.text}>Perfil</Text>
 
-                <Image style={{ width: 100, height: 100, borderRadius: 50}}
+          {fotoFondoURL && (
+        <Image
+          source={{ uri: fotoFondoURL }}
+          style={styles.banner}
+        />
+      )}
+
+                <Image style={{ width: 125, height: 125, borderRadius: 100, alignSelf: 'flex-start',  marginTop: -20, marginLeft: 35, borderWidth: 2, borderColor: 'red',   }}
                   source={{ uri: fotoURL }}/>
 
+                <Text style={styles.nombre}>{nombre}</Text>
+
+                  <View style={{ height: 65 }} />
+
+          <Text style={styles.fecha}>Fecha de nacimiento: </Text>
+            <Text style = {{color: 'white', fontSize: 30, alignSelf: 'flex-start', marginLeft: 25, fontWeight: 'bold'}}>
+            {fechaDeNacimiento}</Text>
+
+<View style={{ height: 25 }} />
+
+                  <Text style={styles.fecha}>Email: </Text>
+            <Text style = {{color: 'white', fontSize: 30, alignSelf: 'flex-start', marginLeft: 25, fontWeight: 'bold'}}>
+            {email}</Text>
+
+<View style={{ height: 25 }} />
+
+            <Text style={styles.fecha}>Descripción: </Text>
+            <Text style = {{color: 'white', fontSize: 18, alignSelf: 'flex-start', marginLeft: 25}}>
+            {descripcion}</Text>
+            
                  <View style={{ height: 123 }} />
+
                  <BotonRojo2 texto="Eliminar mi cuenta" onPress={() => {}}/>
                  </View>
 
@@ -54,11 +89,22 @@ export default function perfilScreen() {
      justifyContent: 'center',
      alignItems: 'center',
     },
-
-    text: {
+    nombre: {
+    color: 'white',
+    fontSize: 35,
+    fontWeight: 'bold',
+    alignSelf: 'flex-end',
+    marginTop: -75, marginRight: 100,
+  },
+  banner: {
+    width: '100%',
+    height: 125,
+    resizeMode: 'cover',
+  },
+  fecha: {
     color: 'white',
     fontSize: 14,
-    marginTop: 10.5,
-    textAlign: 'center',
-  },
+     alignSelf: 'flex-start',
+     marginLeft: 25,
+  }
   });

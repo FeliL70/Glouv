@@ -1,13 +1,15 @@
+import React, { useState } from 'react'
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native'
 
 import Header from '../components/header';
-import circuloYLogo from '../../assets/circuloYLogo.png'
+import circuloYLogo from '../../assets/LogoCirculo.png'
 import BotonRojo from '../components/botonRojo'
 import Separador from '../components/separador';
 
 export default function conectarGlouvScreen() {
   
+    const [conectado, setConectado] = useState(false);
     const navigation = useNavigation();
     return (
       
@@ -19,9 +21,40 @@ export default function conectarGlouvScreen() {
          <View style={styles.conectarGlouvScreen}>
                  <View style={{ height: 25 }} />
                  
+                 {!conectado ? (
+                  <View style={[styles.bordeImagen, {borderColor: 'white'}]} >
                 <Image source = {circuloYLogo} style={styles.imagenes}/>
+                </View>
+                   ) : (
+                    <View style={[styles.bordeImagen, {borderColor: '#C92828'}]} >
+                   <Image source = {circuloYLogo} style={styles.imagenes}/>
+                   </View>
+                   )}
+
                  <View style={{ height: 50 }} />
-                <BotonRojo texto="Conectar Glouv" onPress={() => {}} />
+                 
+        {!conectado && (
+          <BotonRojo
+            texto="Conectar Glouv"
+            blanco={false}
+            onPress={() => setConectado(true)}
+          />
+        )}
+
+        {conectado && (
+          <View style={styles.botonConectado}>
+            <Text style={styles.textoBotonConectado}>Glouv conectado</Text>
+          </View>
+        )}
+
+        
+        {conectado && (
+          <BotonRojo
+            texto="Desconectar Glouv"
+            blanco={false}
+            onPress={() => setConectado(false)} 
+          />
+        )}
 
                   <Separador colorS="white" mB= {22.5} mT= {22.5} />
 
@@ -52,10 +85,31 @@ export default function conectarGlouvScreen() {
   },
 
    imagenes: {
-    width: 250,
-    height: 250,
+    width: '100%',
+    height: '100%',
     resizeMode: 'contain',
   },
-
+  botonConectado: { 
+    backgroundColor: '#444',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    marginVertical: 8,
+    alignItems: 'center',
+    width: 220,
+  },
+  textoBotonConectado: { 
+    color: 'white',
+    fontWeight: '600',
+    fontSize: 16,
+  },
+  bordeImagen: {
+  width: 250,
+  height: 250,
+  borderWidth: 5,
+  borderRadius: 125,  
+  overflow: 'hidden',
+  backgroundColor: '#D9D9D9'
+},
   });
     

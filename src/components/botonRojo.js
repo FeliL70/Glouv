@@ -1,9 +1,10 @@
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 
-export default function BotonRojo({ texto, onPress }) {
+export default function BotonRojo({ texto, onPress, blanco }) {
   return (
-    <TouchableOpacity style={styles.boton} onPress={onPress}>
-      <Text style={styles.texto}>{texto}</Text>
+    <TouchableOpacity style={[styles.boton, blanco ? styles.botonBlanco : styles.botonRojo]}
+     onPress={onPress}>
+      <Text style={[styles.texto, blanco ? styles.textoRojo : styles.textoBlanco]}> {texto} </Text>
     </TouchableOpacity>
   );
 }
@@ -23,4 +24,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
+  botonRojo: { backgroundColor: '#C92828' },
+  botonBlanco: { backgroundColor: 'white' },     
+  texto: {
+    fontSize: 13,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  textoBlanco: { color: 'white' },                 
+  textoRojo: { color: '#C92828' },
 });
