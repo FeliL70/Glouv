@@ -5,8 +5,6 @@ import { useEffect, useState } from 'react';
 import Header from '../components/header';
 import BotonRojo2 from '../components/botonRojo2';
 
-import 'react-native-url-polyfill/auto'
-import 'react-native-get-random-values'
 import supabase from '../supabase';
 
 export default function perfilScreen() {
