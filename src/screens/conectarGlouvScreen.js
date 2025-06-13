@@ -22,16 +22,14 @@ export default function conectarGlouvScreen() {
                  <View style={{ height: 25 }} />
                  
                  {!conectado ? (
-                  <View style={[styles.bordeImagen, {borderColor: 'white'}]} >
+                  <View style={[styles.bordeImagen, {borderColor: 'white', marginBottom: 50}]} >
                 <Image source = {circuloYLogo} style={styles.imagenes}/>
                 </View>
                    ) : (
-                    <View style={[styles.bordeImagen, {borderColor: '#C92828'}]} >
+                    <View style={[styles.bordeImagen, {borderColor: '#C92828', marginBottom: 25}]} >
                    <Image source = {circuloYLogo} style={styles.imagenes}/>
                    </View>
                    )}
-
-                 <View style={{ height: 50 }} />
                  
         {!conectado && (
           <BotonRojo
