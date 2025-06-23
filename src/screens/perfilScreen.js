@@ -26,12 +26,12 @@ export default function perfilScreen() {
     console.log({supabase})   
      const {data} = await supabase
           .from('Usuarios')
-          .select('fotoDePerfil, nombre, fotoDeFondo, fechaDeNacimiento, email, descripcion')
+          .select('fotoDePerfil, nombreCompleto, fotoDeFondo, fechaDeNacimiento, email, descripcion')
           .eq('id', user.id)
           .single();
   
           setFotoURL(data?.fotoDePerfil || null);
-          setNombre(data?.nombre || '');
+          setNombre(data?.nombreCompleto || '');
           setFotoFondoURL(data?.fotoDeFondo || null);
           setFechaDeNacimiento(data?.fechaDeNacimiento || '');
           setEmail(data?.email || '');
