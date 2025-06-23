@@ -1,9 +1,9 @@
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 
-export default function BotonRojo2({ texto, onPress }) {
+export default function BotonRojo2({ texto, onPress, style }) {
   return (
     <TouchableOpacity style={styles.boton} onPress={onPress}>
-      <Text style={styles.texto}>{texto}</Text>
+      <Text style={[styles.texto, style]}>{texto}</Text>
     </TouchableOpacity>
   );
 }

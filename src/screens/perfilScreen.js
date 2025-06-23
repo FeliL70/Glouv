@@ -6,6 +6,7 @@ import Header from '../components/header';
 import BotonRojo2 from '../components/botonRojo2';
 
 import supabase from '../supabase';
+import { useAuth } from '../context/AuthContext';
 
 export default function perfilScreen() {
   
@@ -18,13 +19,15 @@ export default function perfilScreen() {
     const [email, setEmail] = useState(''); 
     const [descripcion, setDescripcion] = useState(''); 
   
+    const { user } = useAuth();
+
     useEffect(() => {
       const cargarFoto = async () => {
     console.log({supabase})   
      const {data} = await supabase
           .from('Usuarios')
           .select('fotoDePerfil, nombre, fotoDeFondo, fechaDeNacimiento, email, descripcion')
-          .eq('id', 1)
+          .eq('id', user.id)
           .single();
   
           setFotoURL(data?.fotoDePerfil || null);
