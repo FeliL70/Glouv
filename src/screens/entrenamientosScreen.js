@@ -19,7 +19,7 @@ export default function EntrenamientosScreen(){
       const cargarEntrenamientos = async () => {
         const { data, error } = await supabase
           .from('Entrenamientos')
-          .select('id, nombre, foto');
+          .select('id, nombre, foto, descripcion');
   
         if (error) {
           console.error('Error cargando entrenamientos:', error);
@@ -46,21 +46,25 @@ export default function EntrenamientosScreen(){
         <View style={{ height: 25 }} />
         
           {entrenamientos.map((entreno) => (
-            <ImagenBoton
-              key={entreno.id}
-              imagenDeBoton={entreno.foto}
-              texto={entreno.nombre}
-              onPress={() =>
-                navigation.navigate('detalleEntrenamiento', {
-                  imagen: entreno.foto,
-                  titulo: entreno.nombre,
-                })
-              }
-            />
+            <>
+              <ImagenBoton
+                key={entreno.id}
+                imagenDeBoton={entreno.foto}
+                texto={entreno.nombre}
+                onPress={() =>
+                  navigation.navigate('detalleEntrenamiento', {
+                    imagen: entreno.foto,
+                    titulo: entreno.nombre,
+                    Descripcion: entreno.descripcion,
+
+                  })
+                }
+              />
+              <Separador colorS="white" mB= {22.5} mT= {22.5}/>
+            </>
+           
+            
           ))}
-         
-        
-        <Separador colorS="white" mB= {22.5} mT= {22.5}/>
 
 </View>
 </ScrollView>

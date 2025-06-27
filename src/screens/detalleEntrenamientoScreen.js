@@ -1,4 +1,4 @@
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image, Text } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 
 import Header from '../components/header'
@@ -6,7 +6,7 @@ import BotonRojo2 from '../components/botonRojo2';
 
 export default function detalleEntrenamientoScreen() {
   const route = useRoute();
-  const {imagen, titulo} = route.params;
+  const {imagen, titulo, Descripcion} = route.params;
 
   return (
     <View style={{backgroundColor: '#272727', flex: 1}}>
@@ -16,7 +16,8 @@ export default function detalleEntrenamientoScreen() {
             <View style={styles.detalleEntrenamientoScreen}>
               <View style={{ height: 23 }} />
               <Image source={{uri: imagen}} style={styles.imagen} />
-              <View style={{ height: 250 }} />
+              <Text style = {styles.desc} >{Descripcion}</Text>
+              <View style={{ height: 220 }} />
               <BotonRojo2 texto="Empezar" onPress={() => {}}/>
 
             </View>
@@ -34,4 +35,12 @@ const styles = StyleSheet.create({
     height: 230,
     resizeMode: 'contain',
   },
+  desc:{
+    color: 'white',
+    fontSize: 25,
+    marginTop: 30,
+   textAlign: 'center',
+   
+    fontWeight: 'bold',
+  }
 });
