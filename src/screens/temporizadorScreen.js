@@ -10,8 +10,6 @@ import BotonRojo2 from '../components/botonRojo2';
 import Separador from '../components/separador';
 
 export default function temporizadorScreen() {
-  const route = useRoute();
-  const { titulo } = route.params;
 
   const [rounds, setRounds] = useState(2);
   const [duracionRound, setDuracionRound] = useState(10);
@@ -21,7 +19,7 @@ export default function temporizadorScreen() {
   return (
     <View style={{backgroundColor: '#272727', flex: 1}}>
              
-     <Header titulo={titulo} showBack={true}/>
+     <Header titulo="Temporizador" showBack={true}/>
        
     <View style={styles.temporizadorScreen}>
 

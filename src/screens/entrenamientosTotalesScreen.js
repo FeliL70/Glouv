@@ -1,4 +1,4 @@
-import { View, StyleSheet, ScrollView, Text} from 'react-native';
+import { View, StyleSheet, ScrollView} from 'react-native';
 import {useNavigation } from '@react-navigation/native'
 
 import { useEffect, useState } from 'react';
@@ -9,7 +9,7 @@ import Separador from '../components/separador';
 
 import supabase from '../supabase';
 
-export default function EntrenamientosScreen(){
+export default function EntrenamientosTotalesScreen(){
 
     const navigation = useNavigation();
 
@@ -19,8 +19,7 @@ export default function EntrenamientosScreen(){
       const cargarEntrenamientos = async () => {
         const { data, error } = await supabase
           .from('Entrenamientos')
-          .select('id, nombre, foto, descripcion')
-          .in('id', [1, 2, 3]);
+          .select('id, nombre, foto, descripcion');
   
         if (error) {
           console.error('Error cargando entrenamientos:', error);
@@ -39,7 +38,7 @@ export default function EntrenamientosScreen(){
       
 <View style={{flex: 1, backgroundColor: '#272727',}}>
        
- <Header titulo="Entrenamientos"/>         
+ <Header titulo="Todos los entrenamientos" showBack={true}/>         
 
   <ScrollView>
 <View style={styles.entrenamientosScreen}>
@@ -47,8 +46,9 @@ export default function EntrenamientosScreen(){
         <View style={{ height: 25 }} />
         
           {entrenamientos.map((entreno) => (
-              <View key={entreno.id} style={{ width: '100%', alignItems: 'center' }}> 
-                <ImagenBoton
+            
+            <View key={entreno.id} style={{ width: '100%', alignItems: 'center' }}> 
+              <ImagenBoton
                 imagenDeBoton={entreno.foto}
                 texto={entreno.nombre}
                 desc={entreno.descripcion}
@@ -57,19 +57,16 @@ export default function EntrenamientosScreen(){
                     imagen: entreno.foto,
                     titulo: entreno.nombre,
                     Descripcion: entreno.descripcion,
+
                   })
                 }
-                />
-                <Separador colorS="white" mB= {43} mT= {22.5}/>  
-              </View>
+              />
+        <Separador colorS="white" mB= {43} mT= {22.5}/>  
+            </View>
+            
           ))}
- <Text onPress={() => navigation.navigate('temporizador')}
-    style={{ textDecorationLine: 'underline', color: '#D9D9D9' }}
-    >temporizador</Text>
-
-  <Text onPress={() => navigation.navigate('entrenamientosTotales')}
-    style={{ textDecorationLine: 'underline', color: '#D9D9D9' }}
-    >Ver más</Text>
+          
+          
 
 </View>
 </ScrollView>
