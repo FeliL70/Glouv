@@ -1,19 +1,38 @@
-import { View, Text, StyleSheet, ScrollView} from 'react-native';
+import { View, StyleSheet, ScrollView} from 'react-native';
 import {useNavigation } from '@react-navigation/native'
+
+import { useEffect, useState } from 'react';
 
 import Header from '../components/header';
 import ImagenBoton from '../components/imagenBoton';
 import Separador from '../components/separador';
 
-import Imagen1 from '../../assets/I1.png'
-import Imagen2 from '../../assets/I2.png'
-import Imagen3 from '../../assets/I3.png'
-import Imagen4 from '../../assets/I4.png'
-import Imagen5 from '../../assets/I5.png'
+import supabase from '../supabase';
 
 export default function EntrenamientosScreen(){
 
     const navigation = useNavigation();
+
+    const [entrenamientos, setEntrenamientos] = useState([]);
+
+    useEffect(() => {
+      const cargarEntrenamientos = async () => {
+        const { data, error } = await supabase
+          .from('Entrenamientos')
+          .select('id, nombre, foto');
+  
+        if (error) {
+          console.error('Error cargando entrenamientos:', error);
+        } else {
+          setEntrenamientos(data);
+        }
+      };
+  
+      cargarEntrenamientos();
+    }, []);
+
+
+
     return (
 
       
@@ -25,32 +44,23 @@ export default function EntrenamientosScreen(){
 <View style={styles.entrenamientosScreen}>
       
         <View style={{ height: 25 }} />
-          <ImagenBoton imagenDeBoton={Imagen1} onPress={() => navigation.navigate('detalleEntrenamiento', {
-          imagen: Imagen1,
-           titulo: 'Básico',
-           })} />
-         <Separador colorS="white" mB= {22.5} mT= {22.5}/>
-       
-          <ImagenBoton imagenDeBoton={Imagen2} onPress={() => navigation.navigate('detalleEntrenamiento', {
-          imagen: Imagen2,
-           titulo: 'Intermedio',
-           })} />
-        <Separador colorS="white" mB= {22.5} mT= {22.5}/>
-       
-          <ImagenBoton imagenDeBoton={Imagen3} onPress={() => navigation.navigate('detalleEntrenamiento', {
-          imagen: Imagen3,
-           titulo: 'Avanzado',
-           })} />
-        <Separador colorS="white" mB= {22.5} mT= {22.5}/>
-       
-        <Text style={styles.text}>Personalización</Text>
-  
-          <ImagenBoton imagenDeBoton = {Imagen4} onPress={() => {}} />
-        <Separador colorS="white" mB= {22.5} mT= {22.5}/>      
+        
+          {entrenamientos.map((entreno) => (
+            <ImagenBoton
+              key={entreno.id}
+              imagenDeBoton={entreno.foto}
+              texto={entreno.nombre}
+              onPress={() =>
+                navigation.navigate('detalleEntrenamiento', {
+                  id: entreno.id,
+                  imagen: entreno.foto,
+                  titulo: entreno.nombre,
+                })
+              }
+            />
+          ))}
          
-         <ImagenBoton imagenDeBoton={Imagen5} onPress={() => navigation.navigate('temporizador', {
-           titulo: 'Temporizador',
-           })} />
+        
         <Separador colorS="white" mB= {22.5} mT= {22.5}/>
 
 </View>

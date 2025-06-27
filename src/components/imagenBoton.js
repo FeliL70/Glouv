@@ -1,9 +1,10 @@
-import { TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { TouchableOpacity, Image, StyleSheet, Text } from 'react-native';
 
-export default function ImagenBoton({ imagenDeBoton, onPress }) {
+export default function ImagenBoton({ imagenDeBoton, texto, onPress }) {
   return (
     <TouchableOpacity onPress={onPress} style={styles.container}>
-      <Image source={imagenDeBoton} style={styles.imagen} />
+      <Image source={{ uri: imagenDeBoton }} style={styles.imagen} />
+      <Text style={styles.texto}>{texto}</Text>
     </TouchableOpacity>
   );
 }
@@ -11,10 +12,17 @@ export default function ImagenBoton({ imagenDeBoton, onPress }) {
 const styles = StyleSheet.create({
   container: {
     marginBottom: 10,
+    alignItems: 'center',
   },
   imagen: {
     width: 345,
     height: 230,
-    resizeMode: 'contain',
+    resizeMode: 'cover',
+    borderRadius: 12,
+  },
+  texto: {
+    color: 'white',
+    fontSize: 18,
+    marginTop: 8,
   },
 });
