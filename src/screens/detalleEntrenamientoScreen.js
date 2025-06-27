@@ -6,7 +6,7 @@ import BotonRojo2 from '../components/botonRojo2';
 
 export default function detalleEntrenamientoScreen() {
   const route = useRoute();
-  const { imagen, titulo } = route.params;
+  const {imagen, titulo} = route.params;
 
   return (
     <View style={{backgroundColor: '#272727', flex: 1}}>
@@ -15,7 +15,7 @@ export default function detalleEntrenamientoScreen() {
 
             <View style={styles.detalleEntrenamientoScreen}>
               <View style={{ height: 23 }} />
-              <Image source={imagen} style={styles.imagen} />
+              <Image source={{uri: imagen}} style={styles.imagen} />
               <View style={{ height: 250 }} />
               <BotonRojo2 texto="Empezar" onPress={() => {}}/>
 

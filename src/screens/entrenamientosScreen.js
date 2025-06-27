@@ -52,7 +52,6 @@ export default function EntrenamientosScreen(){
               texto={entreno.nombre}
               onPress={() =>
                 navigation.navigate('detalleEntrenamiento', {
-                  id: entreno.id,
                   imagen: entreno.foto,
                   titulo: entreno.nombre,
                 })
