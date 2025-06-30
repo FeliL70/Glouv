@@ -1,10 +1,13 @@
 import { View, StyleSheet, Image, Text } from 'react-native';
 import { useRoute } from '@react-navigation/native';
+import {useNavigation } from '@react-navigation/native'
 
 import Header from '../components/header'
 import BotonRojo2 from '../components/botonRojo2';
 
 export default function detalleEntrenamientoScreen() {
+  const navigation = useNavigation();
+
   const route = useRoute();
   const {imagen, titulo, Descripcion} = route.params;
 
@@ -18,7 +21,7 @@ export default function detalleEntrenamientoScreen() {
               <Image source={{uri: imagen}} style={styles.imagen} />
               <Text style = {styles.desc} >{Descripcion}</Text>
               <View style={{ height: 220 }} />
-              <BotonRojo2 texto="Empezar" onPress={() => {}}/>
+              <BotonRojo2 texto="Empezar" onPress={() => navigation.navigate('cronometro')}/>
 
             </View>
     </View>

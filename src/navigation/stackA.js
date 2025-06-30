@@ -3,6 +3,7 @@ import EntrenamientosScreen from '../screens/entrenamientosScreen';
 import DetalleEntrenamientoScreen from '../screens/detalleEntrenamientoScreen';
 import EntrenamientosTotalesScreen from '../screens/entrenamientosTotalesScreen';
 import temporizadorScreen from '../screens/temporizadorScreen';
+import cronometroScreen from '../screens/cronometroScreen'
 const StackA = createNativeStackNavigator();
 
 export default function StackANavigator() {
@@ -13,6 +14,7 @@ export default function StackANavigator() {
        <StackA.Screen name="detalleEntrenamiento" component={DetalleEntrenamientoScreen} />
        <StackA.Screen name="entrenamientosTotales" component={EntrenamientosTotalesScreen} />
        <StackA.Screen name="temporizador" component={temporizadorScreen} />
+       <StackA.Screen name="cronometro" component={cronometroScreen} />
     </StackA.Navigator>
   );
 }

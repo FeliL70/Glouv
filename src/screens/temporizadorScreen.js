@@ -1,5 +1,5 @@
 import { View, StyleSheet, Text} from 'react-native';
-import { useRoute } from '@react-navigation/native';
+import {useNavigation } from '@react-navigation/native'
 
 import React, { useState } from 'react';
 
@@ -10,7 +10,8 @@ import BotonRojo2 from '../components/botonRojo2';
 import Separador from '../components/separador';
 
 export default function temporizadorScreen() {
-
+  const navigation = useNavigation();
+  
   const [rounds, setRounds] = useState(2);
   const [duracionRound, setDuracionRound] = useState(10);
   const [descanso, setDescanso] = useState(0);
@@ -87,7 +88,7 @@ export default function temporizadorScreen() {
 </View>
 
           <View style={{ height: 75 }} />
-          <BotonRojo2 texto="Empezar" onPress={() => {}}/>
+          <BotonRojo2 texto="Empezar" onPress={() => navigation.navigate('cronometro')}/>
 
 </View>
             </View>
