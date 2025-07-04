@@ -9,7 +9,7 @@ export default function detalleEntrenamientoScreen() {
   const navigation = useNavigation();
 
   const route = useRoute();
-  const {imagen, titulo, Descripcion} = route.params;
+  const {imagen, titulo, Descripcion, tiempoT} = route.params;
 
   return (
     <View style={{backgroundColor: '#272727', flex: 1}}>
@@ -21,7 +21,12 @@ export default function detalleEntrenamientoScreen() {
               <Image source={{uri: imagen}} style={styles.imagen} />
               <Text style = {styles.desc} >{Descripcion}</Text>
               <View style={{ height: 220 }} />
-              <BotonRojo2 texto="Empezar" onPress={() => navigation.navigate('cronometro')}/>
+              <BotonRojo2 texto="Empezar" onPress={() => navigation.navigate('cronometro',{
+                tiempoTotal: tiempoT,
+              cantidadRounds: 3,
+            descanso: 90,
+            calentamiento: 90}
+              )}/>
 
             </View>
     </View>

@@ -19,7 +19,7 @@ export default function EntrenamientosTotalesScreen(){
       const cargarEntrenamientos = async () => {
         const { data, error } = await supabase
           .from('Entrenamientos')
-          .select('id, nombre, foto, descripcion');
+          .select('id, nombre, foto, descripcion, duracion');
   
         if (error) {
           console.error('Error cargando entrenamientos:', error);
@@ -57,6 +57,7 @@ export default function EntrenamientosTotalesScreen(){
                     imagen: entreno.foto,
                     titulo: entreno.nombre,
                     Descripcion: entreno.descripcion,
+                    tiempoT: entreno.duracion
 
                   })
                 }

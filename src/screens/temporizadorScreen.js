@@ -12,10 +12,17 @@ import Separador from '../components/separador';
 export default function temporizadorScreen() {
   const navigation = useNavigation();
   
-  const [rounds, setRounds] = useState(2);
+  const [rounds, setRounds] = useState(1);
   const [duracionRound, setDuracionRound] = useState(10);
-  const [descanso, setDescanso] = useState(0);
+  const [descanso, setDescanso] = useState(10);
   const [calentamiento, setCalentamiento] = useState(10);
+
+const totalSegundos = rounds * (duracionRound + descanso);
+const minutos = Math.floor(totalSegundos / 60);
+const segundos = totalSegundos % 60;
+const tiempoTotalTexto = segundos === 0 
+  ? `${minutos} minuto${minutos !== 1 ? 's' : ''}`
+  : `${minutos}:${segundos.toString().padStart(2, '0')}`;
 
   return (
     <View style={{backgroundColor: '#272727', flex: 1}}>
@@ -24,7 +31,7 @@ export default function temporizadorScreen() {
        
     <View style={styles.temporizadorScreen}>
 
-      <View style={styles.textContainer}>
+      <View style={styles.textC}>
        <Text style={styles.text}>Rounds</Text>
        </View>
 
@@ -51,9 +58,9 @@ export default function temporizadorScreen() {
 
         <Text>{`0:${descanso.toString().padStart(2, '0')} descanso`}</Text>
         <Slider
-         minimumValue={0}
-         maximumValue={60}
-         step={5}
+         minimumValue={10}
+         maximumValue={300}
+         step={30}
          value={descanso}
          onValueChange={setDescanso}/>
 
@@ -61,21 +68,17 @@ export default function temporizadorScreen() {
 
 <View style={{alignSelf: 'flex-end'}}>
   <Text style={{ marginTop: 10 }}>
-    Tiempo total de entrenamiento: {Math.floor((rounds * (duracionRound + descanso)) / 60)}:
-    {(rounds * (duracionRound + descanso)) % 60}
+    Tiempo total de entrenamiento: {tiempoTotalTexto}
   </Text>
   </View>
   
 </View>
 
-  <View style={styles.textContainer}>
+  <View style={styles.textC}>
   <Text style={styles.text}>Extra</Text>
   </View>
 
 <View style={styles.rectangulo}>
-  <Text>Advertencia de fin de round: 10</Text>
-
-  <Separador colorS="black" mB= {10} mT= {10}/>
 
   <Text>{`0:${calentamiento.toString().padStart(2, '0')} calentamiento`}</Text>
   <Slider
@@ -88,7 +91,13 @@ export default function temporizadorScreen() {
 </View>
 
           <View style={{ height: 75 }} />
-          <BotonRojo2 texto="Empezar" onPress={() => navigation.navigate('cronometro')}/>
+
+          <BotonRojo2 texto="Empezar" onPress={() => navigation.navigate('cronometro', {
+            tiempoTotal: duracionRound,
+            cantidadRounds: rounds,
+            descanso: descanso,
+            calentamiento: calentamiento}
+           )}/>
 
 </View>
             </View>
@@ -101,7 +110,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
 
-  textContainer: {
+  textC: {
    paddingHorizontal: 20,     
    alignSelf: 'flex-start'  
   },

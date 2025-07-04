@@ -26,5 +26,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   textoBlanco: { color: 'white' },                 
-  textoRojo: { color: '#C92828' },
+  textoRojo: { color: 'black' },
 });

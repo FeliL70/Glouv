@@ -40,9 +40,10 @@ export default function conectarGlouvScreen() {
         )}
 
         {conectado && (
-          <View style={styles.botonConectado}>
-            <Text style={styles.textoBotonConectado}>Glouv conectado</Text>
-          </View>
+          <BotonRojo
+            texto="Conectado"
+            blanco={true}
+          />
         )}
 
         
@@ -87,26 +88,12 @@ export default function conectarGlouvScreen() {
     height: '100%',
     resizeMode: 'contain',
   },
-  botonConectado: { 
-    backgroundColor: '#444',
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-    marginVertical: 8,
-    alignItems: 'center',
-    width: 220,
-  },
-  textoBotonConectado: { 
-    color: 'white',
-    fontWeight: '600',
-    fontSize: 16,
-  },
+  
   bordeImagen: {
   width: 250,
   height: 250,
   borderWidth: 5,
   borderRadius: 125,  
-  overflow: 'hidden',
   backgroundColor: '#D9D9D9'
 },
   });
