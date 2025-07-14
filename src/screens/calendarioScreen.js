@@ -1,50 +1,125 @@
-import { View, Text, StyleSheet} from 'react-native';
-import { useNavigation } from '@react-navigation/native'
+import { View, Text, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { useState, useEffect } from 'react';
+import { Calendar } from 'react-native-calendars';
+import supabase from '../supabase';
 
 import Header from '../components/header';
-import Calendario from '../components/calendario';
+import { useAuth } from '../context/AuthContext';
 
-export default function calendarioScreen() {
-  
-  
-    const navigation = useNavigation();
+export default function CalendarioScreen() {
+  const navigation = useNavigation();
+  const [fechaSeleccionada, setFechaSeleccionada] = useState(new Date());
+  const [tiempoEntrenado, setTiempoEntrenado] = useState('');
+  const [loading, setLoading] = useState(false);
 
-    const hoy = new Date();
-  const fechaTexto = hoy.toDateString();
+  const { user } = useAuth();
 
-    return (
+  const sumarTiempos = (tiempos) => {
+    let totalSegundos = 0;
 
+    tiempos.forEach((tiempo) => {
+      const [h, m, s] = tiempo.split(':').map(Number);
+      totalSegundos += h * 3600 + m * 60 + s;
+    });
 
-      
-       <View style={{backgroundColor: '#272727', flex: 1}}>
+    const horas = String(Math.floor(totalSegundos / 3600)).padStart(2, '0');
+    const minutos = String(Math.floor((totalSegundos % 3600) / 60)).padStart(2, '0');
+    const segundos = String(totalSegundos % 60).padStart(2, '0');
 
-          <Header titulo="Calendario"/>  
-          
-          <View style={styles.calendarioScreen}>
+    return `${horas}:${minutos}:${segundos}`;
+  };
 
-                 <View style={{ height: 23 }} />
-                 <Calendario/>
-                 <View style={{ height: 46 }} />
-                <Text style = {styles.text}>{fechaTexto}</Text>
-         </View>
+  useEffect(() => {
+    const cargarTiempoEntrenado = async () => {
+      setLoading(true);
+      console.log('Fecha seleccionada cambió:', fechaSeleccionada);
+
+      try {
+        const fechaISO = fechaSeleccionada.toISOString().slice(0, 10);
+
+        const { data, error } = await supabase
+          .from('UsuarioEntrenamiento')
+          .select('tiempo')
+          .eq('fecha', fechaISO)
+          .eq('id_usuario', user.id);
+
+        if (error) {
+          console.error('Error cargando tiempo entrenado:', error);
+          setTiempoEntrenado('Error');
+        } else if (data.length > 0) {
+          const tiempos = data.map((item) => item.tiempo);
+          const totalTiempo = sumarTiempos(tiempos);
+          setTiempoEntrenado(totalTiempo);
+        } else {
+          setTiempoEntrenado('00:00:00');
+        }
+      } catch (err) {
+        console.error('Error inesperado:', err);
+        setTiempoEntrenado('Error');
+      }
+
+      setLoading(false);
+    };
+
+    cargarTiempoEntrenado();
+  }, [fechaSeleccionada, user]);
+
+  return (
+    <View style={{ backgroundColor: '#272727', flex: 1 }}>
+      <Header titulo="Calendario" />
+
+      <View style={styles.calendarioScreen}>
+        <View style={{ height: 23 }} />
+
+        <Calendar
+          theme={{
+            calendarBackground: '#272727',
+            dayTextColor: 'white',
+            monthTextColor: 'white',
+            arrowColor: 'white',
+            selectedDayBackgroundColor: '#00adf5',
+            selectedDayTextColor: '#ffffff',
+            todayTextColor: '#00adf5',
+          }}
+          onDayPress={(day) => {
+            const nuevaFecha = new Date(day.dateString);
+            setFechaSeleccionada(nuevaFecha);
+          }}
+          markedDates={{
+            [fechaSeleccionada.toISOString().slice(0, 10)]: {
+              selected: true,
+              marked: true,
+              selectedColor: '#00adf5',
+            },
+          }}
+        />
+
+        <View style={{ height: 46 }} />
+        <Text style={styles.text}>
+          Fecha: {fechaSeleccionada.toDateString()}
+        </Text>
+        <Text style={styles.text}>
+          Tiempo entrenado: {loading ? 'Cargando...' : tiempoEntrenado}
+        </Text>
       </View>
-    );
-  }
+    </View>
+  );
+}
 
-  const styles = StyleSheet.create({
-    calendarioScreen: {
-      flex: 1,
-      justifyContent: 'flex-start',
+const styles = StyleSheet.create({
+  calendarioScreen: {
+    flex: 1,
+    justifyContent: 'flex-start',
     alignContent: 'center',
     paddingHorizontal: 15,
-    },
-
-    text: {
+  },
+  text: {
     color: 'white',
-    fontSize: 30,
+    fontSize: 22,
     marginBottom: 10,
     textAlign: 'left',
     paddingHorizontal: 15,
     fontWeight: 'bold',
   },
-  });
+});
