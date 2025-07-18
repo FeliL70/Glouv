@@ -1,32 +1,39 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Alert, Image, TouchableOpacity } from 'react-native';
-import supabase from '../supabase';
 import { useAuth } from '../context/AuthContext';
 import {useNavigation } from '@react-navigation/native'
+
+import { IP_PC } from '@env';
 
 import Imagen from '../../assets/GlouvChico.png'
 import BotonRojo2 from '../components/botonRojo2';
 import Separador from '../components/separador';
 
 export default function LoginScreen() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const { setUser } = useAuth();
+const [email, setEmail] = useState('');
+const [password, setPassword] = useState('');
+const { setUser } = useAuth();
 
-  const handleLogin = async () => {
-    const { data, error } = await supabase
-      .from('Usuarios')
-      .select('*')
-      .eq('email', email)
-      .eq('Contrasenia', password)
-      .single();
+const handleLogin = async () => {
+  try {
+    const response = await fetch(`http://${IP_PC}:3000/api/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    });
 
-    if (error || !data) {
-      Alert.alert('Error', 'Email o contraseña incorrectos');
+    const result = await response.json();
+
+    if (response.ok) {
+      setUser(result.usuario);
     } else {
-      setUser(data);
+      Alert.alert('Error', result.error || 'Email o contraseña incorrectos');
     }
-  };
+  } catch (err) {
+    console.error('Error en login:', err);
+    Alert.alert('Error', 'Error de conexión');
+  }
+};
 
 const navigation = useNavigation();
   

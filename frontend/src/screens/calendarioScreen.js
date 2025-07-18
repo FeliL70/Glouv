@@ -2,7 +2,8 @@ import { View, Text, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useState, useEffect } from 'react';
 import { Calendar } from 'react-native-calendars';
-import supabase from '../supabase';
+
+import { IP_PC } from '@env';
 
 import Header from '../components/header';
 import { useAuth } from '../context/AuthContext';
@@ -31,39 +32,32 @@ export default function CalendarioScreen() {
   };
 
   useEffect(() => {
-    const cargarTiempoEntrenado = async () => {
-      setLoading(true);
-      console.log('Fecha seleccionada cambió:', fechaSeleccionada);
+  const cargarTiempoEntrenado = async () => {
+    setLoading(true);
+    console.log('Fecha seleccionada cambió:', fechaSeleccionada);
 
-      try {
-        const fechaISO = fechaSeleccionada.toISOString().slice(0, 10);
+    try {
+      const fechaISO = fechaSeleccionada.toISOString().slice(0, 10);
 
-        const { data, error } = await supabase
-          .from('UsuarioEntrenamiento')
-          .select('tiempo')
-          .eq('fecha', fechaISO)
-          .eq('id_usuario', user.id);
+      const res = await fetch(`http://${IP_PC}:3000/api/tiempo-entrenado?fecha=${fechaISO}&id_usuario=${user.id}`);
+      const result = await res.json();
 
-        if (error) {
-          console.error('Error cargando tiempo entrenado:', error);
-          setTiempoEntrenado('Error');
-        } else if (data.length > 0) {
-          const tiempos = data.map((item) => item.tiempo);
-          const totalTiempo = sumarTiempos(tiempos);
-          setTiempoEntrenado(totalTiempo);
-        } else {
-          setTiempoEntrenado('00:00:00');
-        }
-      } catch (err) {
-        console.error('Error inesperado:', err);
+      if (res.ok) {
+        setTiempoEntrenado(result.totalTiempo);
+      } else {
+        console.error('Error en backend:', result.error);
         setTiempoEntrenado('Error');
       }
+    } catch (err) {
+      console.error('Error inesperado:', err);
+      setTiempoEntrenado('Error');
+    }
 
-      setLoading(false);
-    };
+    setLoading(false);
+  };
 
-    cargarTiempoEntrenado();
-  }, [fechaSeleccionada, user]);
+  cargarTiempoEntrenado();
+}, [fechaSeleccionada, user]);
 
   return (
     <View style={{ backgroundColor: '#272727', flex: 1 }}>

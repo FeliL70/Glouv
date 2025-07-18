@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image } from 'react-native';
-import supabase from '../supabase';
 import { useAuth } from '../context/AuthContext';
 import {useNavigation } from '@react-navigation/native'
 
 import BotonRojo2 from '../components/botonRojo2'
 import Imagen from '../../assets/GlouvChico.png'
 import Separador from '../components/separador';
+
+import { IP_PC } from '@env';
 
 export default function RegisterScreen() {
   const [email, setEmail] = useState('');
@@ -15,36 +16,31 @@ export default function RegisterScreen() {
   const { setUser } = useAuth();
 
   const handleRegister = async () => {
-    if (!email || !nombre || !password) {
-      Alert.alert('Error', 'Completá todos los campos');
-      return;
-    }
+  if (!email || !nombre || !password) {
+    Alert.alert('Error', 'Completá todos los campos');
+    return;
+  }
 
-    const { data: existingUser } = await supabase
-      .from('Usuarios')
-      .select('*')
-      .eq('email', email)
-      .single();
+  try {
+    const res = await fetch(`http://${IP_PC}:3000/api/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, nombre, password }),
+    });
 
-    if (existingUser) {
-      Alert.alert('Error', 'Ya existe un usuario con ese email');
-      return;
-    }
+    const result = await res.json();
 
-    const { data, error } = await supabase
-      .from('Usuarios')
-      .insert([{ email, nombre, Contrasenia: password }])
-      .select()
-      .single();
-
-    if (error) {
-      Alert.alert('Error', 'Hubo un problema al registrarse');
-      console.log(error);
+    if (res.ok) {
+      Alert.alert('Éxito', `Bienvenido, ${result.usuario.nombre}`);
+      setUser(result.usuario);
     } else {
-      Alert.alert('Éxito', `Bienvenido, ${data.nombre}`);
-      setUser(data);
+      Alert.alert('Error', result.error || 'No se pudo registrar');
     }
-  };
+  } catch (err) {
+    console.error('Error inesperado:', err);
+    Alert.alert('Error', 'Error de conexión con el servidor');
+  }
+};
 
 const navigation = useNavigation();
 

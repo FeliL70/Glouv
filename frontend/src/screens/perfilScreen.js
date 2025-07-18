@@ -5,7 +5,8 @@ import { useEffect, useState } from 'react';
 import Header from '../components/header';
 import BotonRojo2 from '../components/botonRojo2';
 
-import supabase from '../supabase';
+import { IP_PC } from '@env';
+
 import { useAuth } from '../context/AuthContext';
 
 export default function perfilScreen() {
@@ -22,24 +23,28 @@ export default function perfilScreen() {
     const { user } = useAuth();
 
     useEffect(() => {
-      const cargarFoto = async () => {
-    console.log({supabase})   
-     const {data} = await supabase
-          .from('Usuarios')
-          .select('fotoDePerfil, nombreCompleto, fotoDeFondo, fechaDeNacimiento, email, descripcion')
-          .eq('id', user.id)
-          .single();
-  
-          setFotoURL(data?.fotoDePerfil || null);
-          setNombre(data?.nombreCompleto || '');
-          setFotoFondoURL(data?.fotoDeFondo || null);
-          setFechaDeNacimiento(data?.fechaDeNacimiento || '');
-          setEmail(data?.email || '');
-          setDescripcion(data?.descripcion || '');
-      };
-  
-      cargarFoto();
-    }, []);
+  const cargarFoto = async () => {
+    try {
+      const res = await fetch(`http://${IP_PC}:3000/api/perfil?id=${user.id}`);
+      const data = await res.json();
+
+      if (res.ok) {
+        setFotoURL(data.fotoDePerfil || null);
+        setNombre(data.nombreCompleto || '');
+        setFotoFondoURL(data.fotoDeFondo || null);
+        setFechaDeNacimiento(data.fechaDeNacimiento || '');
+        setEmail(data.email || '');
+        setDescripcion(data.descripcion || '');
+      } else {
+        console.error("Error cargando perfil:", data.error);
+      }
+    } catch (err) {
+      console.error("Error de red:", err);
+    }
+  };
+
+  cargarFoto();
+}, []);
 
     return (
       
